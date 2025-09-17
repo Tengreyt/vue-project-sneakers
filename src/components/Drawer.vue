@@ -57,7 +57,7 @@ const props = defineProps({
   vatPrice: Number
 })
 
-const { cart, closeDrawer } = inject('cart')
+const { cart } = inject('cart')
 
 const isCreating = ref(false)
 const orderId = ref(null)

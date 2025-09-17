@@ -1,6 +1,9 @@
 <template>
-  <div class="grid grid-cols-4 gap-4 mt-8" v-auto-animate>
-    <Card
+  <div
+    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8"
+    v-auto-animate
+  >
+    <CardItem
       v-for="item in items"
       :key="item.id"
       :id="item.id"
@@ -16,7 +19,7 @@
 </template>
 
 <script setup>
-import Card from './Card.vue'
+import CardItem from './CardIhen.vue'
 
 defineProps({
   items: Array,

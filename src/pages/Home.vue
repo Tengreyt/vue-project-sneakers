@@ -1,28 +1,41 @@
 <template>
-  <div class="flex justify-between items-center">
-    <h2 class="text-3xl font-bold">Все кроссовки</h2>
+  <!-- Заголовок + фильтры -->
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <h2 class="text-2xl sm:text-3xl font-bold">Все кроссовки</h2>
 
-    <div class="flex gap-4">
-      <select @change="onChange" class="py-2 px-3 border rounded-md outline-none">
+    <div class="flex flex-col sm:flex-row gap-4 sm:items-center">
+      <select
+        @change="onChange"
+        class="py-2 px-3 border rounded-md outline-none text-sm sm:text-base"
+      >
         <option value="name">По названию</option>
         <option value="price">По цене (дешевые)</option>
         <option value="-price">По цене (дорогие)</option>
       </select>
 
       <div class="relative">
-        <img src="/search.svg" alt="search" class="absolute top-3 left-4" />
+        <img
+          src="/search.svg"
+          alt="search"
+          class="absolute top-3 left-4 w-4 sm:w-5"
+        />
         <input
           @input="onChangeSearchInput"
           type="text"
           placeholder="Поиск..."
-          class="rounded-md py-2 pl-12 pr-4 outline-none focus:border-gray-400 border border-gray-200"
+          class="w-full rounded-md py-2 pl-10 pr-4 outline-none focus:border-gray-400 border border-gray-200 text-sm sm:text-base"
         />
       </div>
     </div>
   </div>
 
-  <div class="mt-10">
-    <CardList :items="items" @add-to-favorite="addToFavorite" @addToCart="onClickAddPlus" />
+  <!-- Список карточек -->
+  <div class="mt-6 sm:mt-10 mb-10">
+    <CardList
+      :items="items"
+      @add-to-favorite="addToFavorite"
+      @addToCart="onClickAddPlus"
+    />
   </div>
 </template>
 
