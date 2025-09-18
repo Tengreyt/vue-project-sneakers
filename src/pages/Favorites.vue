@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <h2 class="text-3xl font-bold">Мои зокладки</h2>
 
@@ -6,16 +7,13 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import CardList from '../components/CardList.vue'
-import axios from 'axios'
-
+import CardList from '../components/feathers/card/CardList.vue'
+import http from '@/shared/api/http'
 const favorites = ref([])
 
 onMounted(async () => {
   try {
-    const { data } = await axios.get(
-      'https://997ffc736e7023e4.mokky.dev/favorites?_relations=items'
-    )
+    const { data } = await http.get('/favorites?_relations=items')
     favorites.value = data.map((obj) => obj.item)
   } catch (e) {
     console.error(e)

@@ -1,9 +1,17 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div class="fixed top-0 left-0 h-full w-full bg-black z-10 bg-opacity-70"></div>
-  <div class="bg-white w-96 h-full fixed right-0 top-0 z-20 p-8">
+  <div 
+    class="fixed top-0 left-0 h-full w-full bg-black z-10 bg-opacity-70"
+    @click="onOverlayClick"
+  ></div>
+
+  <div 
+    class="bg-white w-full sm:w-96 h-full fixed right-0 top-0 z-20 p-6 sm:p-8 transition"
+    role="dialog" aria-modal="true"
+  >
     <DrawerHead />
 
-    <div v-if="!totalPrice || orderId" class="flex h-full items-center">
+    <div v-if="!totalPrice || orderId" class="flex h-full items-center justify-center">
       <InfoBlock
         v-if="!totalPrice && !orderId"
         title="Корзина пустая"
@@ -20,16 +28,17 @@
 
     <div v-else>
       <CartItemList />
+
       <div class="flex flex-col gap-4 mt-7">
         <div class="flex gap-2">
           <span>Итого:</span>
-          <div class="flex-1 boder-b border-dashed"></div>
+          <div class="flex-1 border-b border-dashed"></div>
           <b>{{ totalPrice }} ₽</b>
         </div>
 
         <div class="flex gap-2">
           <span>Налог 5%:</span>
-          <div class="flex-1 boder-b border-dashed"></div>
+          <div class="flex-1 border-b border-dashed"></div>
           <b>{{ vatPrice }} ₽</b>
         </div>
 
@@ -47,33 +56,38 @@
 
 <script setup>
 import DrawerHead from './DrawerHead.vue'
-import CartItemList from './CartItemList.vue'
-import { computed, ref, inject } from 'vue'
-import InfoBlock from './InfoBlock.vue'
-import axios from 'axios'
+import CartItemList from '../card/CartItemList.vue'
+import { computed, ref, inject, onMounted, onUnmounted } from 'vue'
+import InfoBlock from '../info/InfoBlock.vue'
+import http from '@/shared/api/http'
+import { useCartStore } from '@/features/cart/model/cart.store'
 
 const props = defineProps({
   totalPrice: Number,
   vatPrice: Number
 })
 
+const cartStore = useCartStore()
 const { cart } = inject('cart')
 
 const isCreating = ref(false)
 const orderId = ref(null)
 
+const onOverlayClick = () => {
+  const { closeDrawer } = inject('cart')
+  closeDrawer?.()
+}
+
 const createOrder = async () => {
   try {
     isCreating.value = true
-    const { data } = await axios.post('https://997ffc736e7023e4.mokky.dev/orders', {
+    const { data } = await http.post('/orders', {
       items: cart.value,
-      totalPrice: props.totalPrice.value
+      totalPrice: props.totalPrice
     })
 
-    cart.value = []
-
+    cartStore.clear()
     orderId.value = data.id
-
     return data
   } catch (err) {
     console.error(err)
@@ -84,4 +98,12 @@ const createOrder = async () => {
 
 const cartIsEmpty = computed(() => cart.value.length === 0)
 const cartButtonDisabled = computed(() => isCreating.value || cartIsEmpty.value)
+
+onMounted(() => {
+  document.body.style.overflow = 'hidden'
+})
+
+onUnmounted(() => {
+  document.body.style.overflow = ''
+})
 </script>
