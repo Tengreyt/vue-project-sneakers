@@ -14,11 +14,13 @@
     "@formkit/auto-animate": "^0.8.2",
     "axios": "^1.7.2",
     "lodash.debounce": "^4.0.8",
+    "pinia": "^2.2.4",
     "vue": "^3.4.29",
     "vue-router": "^4.4.0"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",
+    "@types/lodash.debounce": "^4.0.9",
     "@vitejs/plugin-vue": "^5.0.5",
     "@vitejs/plugin-vue-jsx": "^4.0.0",
     "@vue/eslint-config-prettier": "^9.0.0",
