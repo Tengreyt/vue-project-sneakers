@@ -104,7 +104,10 @@ onMounted(async () => {
 watch(
   () => cartStore.items,
   () => {
-    items.value = items.value.map((item) => ({ ...item, isAdded: false }))
+    items.value = items.value.map((item) => ({
+      ...item,
+      isAdded: cartStore.items.some((cartItem) => cartItem.id === item.id)
+    }))
   },
   { deep: true }
 )

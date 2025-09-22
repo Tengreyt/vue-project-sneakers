@@ -21,7 +21,6 @@
         class="relative flex items-center cursor-pointer gap-2 sm:gap-3 text-gray-500 hover:text-black active:scale-[.98] transition"
       >
         <img src="/cart.svg" alt="Cart" class="w-5 sm:w-6" />
-        <span v-if="cartCount > 0" class="absolute -top-2 -right-2 min-w-5 h-5 px-1 rounded-full bg-lime-500 text-white text-[10px] flex items-center justify-center">{{ cartCount }}</span>
         <b class="text-sm sm:text-base">{{ totalPrice }} руб.</b>
       </li>
 
@@ -59,6 +58,5 @@ const emit = defineEmits(['open-drawer'])
 const authStore = useAuthStore()
 const { isAuthenticated, user } = storeToRefs(authStore)
 
-const cartStore = useCartStore()
-const cartCount = cartStore.items.length
+useCartStore()
 </script>

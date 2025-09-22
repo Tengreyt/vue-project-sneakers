@@ -1,11 +1,12 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div class="flex flex-col justify-center items-center min-h-[60vh] bg-gray-50 px-4 py-6">
+  <div class="flex flex-col justify-center items-center min-h-[60vh] px-4 py-6">
     <form
       v-if="mode === 'login'"
       @submit.prevent="login"
-      class="flex flex-col gap-4 p-6 bg-white rounded-xl shadow-md w-full max-w-[420px] sm:max-w-[360px]"
+      class="flex flex-col gap-4 p-6 bg-white rounded-xl shadow-2xl shadow-gray-500/40 ring-1 ring-black/5 w-full max-w-[420px] sm:max-w-[360px]"
     >
+
       <h1 class="text-2xl sm:text-xl font-semibold text-gray-800 text-center">Вход</h1>
 
       <input
@@ -51,8 +52,9 @@
     <form
       v-if="mode === 'register'"
       @submit.prevent="register"
-      class="flex flex-col gap-4 p-6 bg-white rounded-xl shadow-md w-full max-w-[420px] sm:max-w-[360px]"
+      class="flex flex-col gap-4 p-6 bg-white rounded-xl shadow-2xl shadow-gray-500/40 ring-1 ring-black/5 w-full max-w-[420px] sm:max-w-[360px]"
     >
+
       <h1 class="text-2xl sm:text-xl font-semibold text-gray-800 text-center">Регистрация</h1>
 
       <input
@@ -94,8 +96,8 @@
       </p>
     </form>
 
-    <div v-if="message" class="mt-4 text-gray-800 text-center">
-      <h2>{{ message }}</h2>
+    <div v-if="message" class="mt-8 text-gray-800 text-center">
+      <h2 class="text-red-500">{{ message }}</h2>
     </div>
   </div>
 </template>
@@ -122,7 +124,7 @@ const login = async () => {
   const user = await authStore.login(loginName.value)
   if (user) {
     message.value = `Добро пожаловать, ${user.user}!`
-    router.push('/profile')
+    router.push({ path: '/profile', query: { welcome: user.user } })
   } else {
     message.value = 'Такого пользователя нет!'
   }

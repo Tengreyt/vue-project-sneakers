@@ -1,6 +1,9 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="max-w-xl mx-auto p-6">
+    <div v-if="welcomeName" class="mb-4 p-3 rounded-lg bg-green-50 text-green-700 border border-green-200">
+      Добро пожаловать, {{ welcomeName }}!
+    </div>
     <div v-if="isAuthenticated" class="bg-white rounded-xl shadow p-6 flex flex-col gap-4">
       <div class="flex items-center gap-4">
         <img src="/profile.svg" class="w-12 h-12" alt="avatar" />
@@ -26,10 +29,22 @@
 <script setup>
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from '@/features/auth/model/auth.store'
+import { useRoute, useRouter } from 'vue-router'
+import { computed, onMounted } from 'vue'
 import login from '@/components/ui/login.vue'
 
 const authStore = useAuthStore()
 const { isAuthenticated, user } = storeToRefs(authStore)
+const route = useRoute()
+const router = useRouter()
+
+const welcomeName = computed(() => route.query.welcome)
+
+onMounted(() => {
+  if (route.query.welcome) {
+    router.replace({ query: { ...route.query, welcome: undefined } })
+  }
+})
 
 const logout = () => authStore.logout()
 </script>
