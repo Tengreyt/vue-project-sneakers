@@ -1,35 +1,101 @@
-# vue-project
+## Vue Sneakers — интернет‑магазин кроссовок от Tengreyt
 
-This template should help get you started developing with Vue 3 in Vite.
+Современное SPA на Vue 3: каталог кроссовок с сортировкой и поиском, избранное, корзина с подсчетом НДС, упрощенная авторизация и профиль. Проект использует Vite, Pinia, Vue Router, Tailwind CSS, Axios и Auto Animate.
 
-## Recommended IDE Setup
+### Деплой
+- Продакшн: [vue-project-sneakers.vercel.app](https://vue-project-sneakers.vercel.app/)
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+### Основные возможности
+- Каталог товаров: загрузка из API, сортировка по названию и цене, поиск по названию.
+- Избранное: добавление/удаление, хранение на бекенде, подтяжка состояния при загрузке.
+- Корзина: добавление/удаление, сумма и НДС 5%, сохранение в localStorage.
+- Авторизация: упрощенный вход по имени пользователя и хранение пользователя в localStorage.
+- Профиль: отображение информации о пользователе.
+- Анимации интерфейса: авто‑анимация списков/изменений.
 
-## Customize configuration
+### Технологии
+- Vue 3 (Composition API)
+- Vite
+- Pinia — хранилище состояния
+- Vue Router — маршрутизация
+- Tailwind CSS — стили
+- Axios — HTTP‑клиент
+- @formkit/auto-animate — плавные анимации
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+### Архитектура и структура каталогов
+Проект следует компонентно‑модульному подходу (близок к идеям FSD):
 
-## Project Setup
+- `src/app` — провайдеры и инициализация приложения.
+- `src/entities` — сущности домена. Пример: `product` со стором загрузки каталога (`useProductsStore`).
+- `src/features` — прикладные фичи:
+  - `auth` — стор авторизации (`useAuthStore`).
+  - `cart` — корзина с подсчетом суммы и НДС, персист в `localStorage` (`useCartStore`).
+  - `favorites` — избранное, работа с API (`useFavoritesStore`).
+- `src/components/feathers` — UI‑компоненты: шапка, карточки, список карточек, дровер корзины и т.п.
+- `src/pages` — страницы: `Home`, `Favorites`, `Profile`.
+- `src/router` — маршруты (`/`, `/favorites`, `/profile`).
+- `src/shared/api/http.js` — конфигурация Axios с базовым URL и перехватчиком ошибок.
 
+Ключевые состояния и взаимодействия:
+- `useProductsStore` загружает список товаров с учетом фильтров: сортировки (`sortBy`) и строки поиска (`searchQuery`).
+- `Home.vue` соединяет данные каталога, корзины и избранного, дебаунсит поиск, обновляет флаги `isAdded` и `isFavorite`.
+- `useFavoritesStore` синхронизирует состояние избранного с сервером (создание/удаление по `favoriteId`).
+- `useCartStore` хранит товары в корзине в `localStorage` и считает `totalPrice` и `vatPrice` (5%).
+- `useAuthStore` выполняет упрощенный вход: запрос пользователя по имени и сохранение в `localStorage`.
+
+### API
+Базовый URL: `https://mokky.dev/`
+
+Используемые эндпойнты (по коду проекта):
+- `GET /items` — список товаров (поддерживает `sortBy`, `title=*query*`).
+- `GET /favorites` — получить избранные.
+- `POST /favorites` — добавить в избранные: `{ item_id: number }`.
+- `DELETE /favorites/:id` — удалить из избранных.
+- `GET /user?user=:username` — получить пользователя по имени.
+- `POST /user` — регистрация пользователя (payload из формы регистрации).
+
+Примечание: авторизация упрощенная (без токенов), хранение пользователя происходит в `localStorage`.
+
+### Скрипты
+```sh
+npm run dev      # запуск дев‑сервера Vite
+npm run build    # продакшн‑сборка
+npm run preview  # предпросмотр продакшн‑сборки
+npm run lint     # линтинг eslint (с авто‑фиксом)
+npm run format   # форматирование prettier (src/)
+```
+
+### Установка и запуск
+1) Установите зависимости:
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
-
+2) Запустите локально:
 ```sh
 npm run dev
 ```
 
-### Compile and Minify for Production
+3) Откройте приложение в браузере (адрес будет показан Vite, обычно `http://localhost:5173`).
 
-```sh
-npm run build
-```
+### Особенности UI/UX
+- Адаптивная верстка, аккуратные состояния наведения/нажатия.
+- Дровер корзины и сумма заказа доступны из шапки.
+- Поиск с дебаунсом 500 мс.
+- Состояние избранного/корзины отображается прямо на карточках.
 
-### Lint with [ESLint](https://eslint.org/)
+### Персист данных
+- Корзина (`cart`) и пользователь (`auth_user`) сохраняются и читаются из `localStorage`.
+- Избранное хранится на сервере, подтягивается при загрузке.
 
-```sh
-npm run lint
-```
+### Линтинг и стиль кода
+- ESLint + Prettier настроены в проекте. Запускайте `npm run lint` и `npm run format`.
+
+### Навигация по коду
+- Входной файл: `src/main.js` (инициализация Vue, Pinia, Router, Auto Animate).
+- Каркас приложения: `src/App.vue` (шапка, дровер корзины, `<RouterView/>`).
+- Роутер: `src/router/index.js`.
+- Сторы: в `src/features/**/model` и `src/entities/**/model`.
+
+### Лицензия
+Проект предоставляется «как есть» для учебных и демонстрационных целей.
