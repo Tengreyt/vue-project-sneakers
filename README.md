@@ -51,6 +51,7 @@
 - `GET /favorites` — получить избранные.
 - `POST /favorites` — добавить в избранные: `{ item_id: number }`.
 - `DELETE /favorites/:id` — удалить из избранных.
+- `GET /orders` — получить историю заказов (массив заказов с `items` и `totalPrice`).
 - `GET /user?user=:username` — получить пользователя по имени.
 - `POST /user` — регистрация пользователя (payload из формы регистрации).
 
