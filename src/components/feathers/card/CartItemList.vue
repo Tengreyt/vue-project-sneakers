@@ -1,5 +1,5 @@
 <template>
-  <div v-auto-animate class="flex flex-col flex-1 gap-4">
+  <div v-auto-animate class="flex flex-col gap-3 sm:gap-4">
     <CartItem
       v-for="item in cart"
       :key="item.id"
