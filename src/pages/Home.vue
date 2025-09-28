@@ -2,12 +2,12 @@
 <template>
   <!-- Заголовок + фильтры -->
   <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-    <h2 class="text-2xl sm:text-3xl font-bold">Все кроссовки</h2>
+    <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold">Все кроссовки</h2>
 
-    <div class="flex flex-col sm:flex-row gap-4 sm:items-center">
+    <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-center">
       <select
         @change="onChange"
-        class="py-2 px-3 border rounded-md outline-none text-sm sm:text-base"
+        class="py-2 px-3 border rounded-md outline-none text-sm sm:text-base bg-white"
       >
         <option value="name">По названию</option>
         <option value="price">По цене (дешевые)</option>
@@ -31,7 +31,7 @@
   </div>
 
   <!-- Список карточек -->
-  <div class="mt-6 sm:mt-10 mb-10">
+  <div class="mt-4 sm:mt-6 lg:mt-10 mb-6 sm:mb-10">
     <CardList
       :items="items"
       @add-to-favorite="addToFavorite"

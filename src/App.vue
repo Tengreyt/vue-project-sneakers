@@ -1,10 +1,10 @@
 <template>
   <Drawer v-if="drawerOpen" :total-price="totalPrice" :vatPrice="vatPrice" />
 
-  <div class="bg-white w-4/5 mx-auto rounded-xl shadow-xl mt-14 mb-10">
+  <div class="bg-white w-full sm:w-4/5 mx-auto rounded-xl shadow-xl mt-4 sm:mt-14 mb-4 sm:mb-10">
     <Header :total-price="totalPrice" @open-drawer="openDrawer" />
 
-    <div class="p-8">
+    <div class="p-4 sm:p-8">
       <RouterView />
     </div>
   </div>
